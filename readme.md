@@ -1,4 +1,4 @@
-# Custom array method getAverage
+# Custom array method calculateAverage
 
 **Read the guideline before start**
 
