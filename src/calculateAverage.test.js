@@ -84,8 +84,8 @@ test('average callback result, check array to be equal with source', () => {
         if (array === users) {
           return user.id + (index * 100);
         }
-      } }
-    ))
+      }
+    }))
     .toBe(102);
 });
 
