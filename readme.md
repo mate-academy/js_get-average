@@ -1,4 +1,4 @@
-# Boilerplate for JS tasks
+# Custom array method calculateAverage
 
 **Read the guideline before start**
 

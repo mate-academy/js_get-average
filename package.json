@@ -1,8 +1,8 @@
 {
-  "name": "js-task-boilerplate",
+  "name": "calculate-average",
   "version": "1.0.0",
-  "description": "js task boilerplate",
-  "main": "src/sum.js",
+  "description": "custom array method calculateAverage",
+  "main": "src/calculateAverage.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint **/*.js"
