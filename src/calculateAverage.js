@@ -29,15 +29,40 @@
  *  accumulator: (user, index, array) => user.age + (index * 100)
  * }) === 130
  * users.calculateAverage({ accumulator: 'hello world' }) === undefined
- *
  */
 function applyCalculateAverage() {
-  /**
-   *
-   * @param {Object} options - optional
-   */
   [].__proto__.calculateAverage = function(options) {
-    // write code here
+    if (options === null) {
+      return undefined;
+    }
+    if (options) {
+      if (!Object.keys(options).length) {
+        return undefined;
+      } else if (typeof options === 'object' &&
+          options.hasOwnProperty('propertyName')) {
+        let filterArr = this.filter(item => item[options.propertyName]);
+        if (filterArr.length) {
+          if (filterArr.some(item => isNaN(item[options.propertyName]))) {
+            return;
+          }
+          let propAmount = this.filter(item => item[options.propertyName]);
+          return filterArr.reduce((sum, current) =>
+            sum + current[options.propertyName], 0) / propAmount.length;
+        }
+      } else if (typeof options === 'object' &&
+          options.hasOwnProperty('accumulator')) {
+        if (typeof options.accumulator === 'function') {
+          return this.reduce((sum, current, array) => {
+            current = options.accumulator(current, this.indexOf(current), this);
+            return (sum + current);
+          }, 0) / this.length;
+        };
+      }
+    }
+
+    if (!options) {
+      return (this.reduce((sum, current) => sum + current, 0)) / this.length;
+    }
   };
 }
 
