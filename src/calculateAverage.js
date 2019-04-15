@@ -32,12 +32,58 @@
  *
  */
 function applyCalculateAverage() {
+  function calculateAverageOfArray(array) {
+    const initialObject = {
+      sum: 0,
+      counter: 0,
+      average: 0
+    };
+    const arrayInformation = array.reduce((accumulator, currentValue) => {
+      return {
+        sum: accumulator.sum + currentValue,
+        counter: accumulator.counter + 1,
+        average: (accumulator.sum + currentValue) / (accumulator.counter + 1)
+      };
+    }, initialObject);
+    return arrayInformation.average;
+  }
+  function calculateAverageOfArrayOfObjects(array, propertyName) {
+    const propertyIsValid = array.some((item) => {
+      return item[propertyName] && (typeof item[propertyName] === 'number');
+    });
+
+    if (propertyIsValid) {
+      const valuesByProperty = [];
+      array.forEach((item) => {
+        if (item[propertyName]) {
+          valuesByProperty.push(item[propertyName]);
+        }
+      });
+      return calculateAverageOfArray(valuesByProperty);
+    } else {
+      return undefined;
+    }
+  }
   /**
    *
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    // write code here
+    if (options === null) {
+      return;
+    }
+    if (options === undefined) {
+      return calculateAverageOfArray(this);
+    }
+    if (options.propertyName) {
+      return calculateAverageOfArrayOfObjects(this, options.propertyName);
+    }
+    if (typeof (options.accumulator) === 'function') {
+      const accumulatorResults = this.map((item, index, array) => {
+        return options.accumulator(item, index, array);
+      });
+      return calculateAverageOfArray(accumulatorResults);
+    }
   };
 }
 
