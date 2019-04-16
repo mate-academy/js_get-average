@@ -50,8 +50,6 @@ function applyCalculateAverage() {
         }
       });
       return calculateAverageOfArray(valuesByProperty);
-    } else {
-      return undefined;
     }
   }
   /**
