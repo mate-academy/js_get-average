@@ -33,19 +33,9 @@
  */
 function applyCalculateAverage() {
   function calculateAverageOfArray(array) {
-    const initialObject = {
-      sum: 0,
-      counter: 0,
-      average: 0
-    };
-    const arrayInformation = array.reduce((accumulator, currentValue) => {
-      return {
-        sum: accumulator.sum + currentValue,
-        counter: accumulator.counter + 1,
-        average: (accumulator.sum + currentValue) / (accumulator.counter + 1)
-      };
-    }, initialObject);
-    return arrayInformation.average;
+    return array.reduce((sum, currentValue) => {
+      return sum + currentValue;
+    }) / array.length;
   }
   function calculateAverageOfArrayOfObjects(array, propertyName) {
     const propertyIsValid = array.some((item) => {
