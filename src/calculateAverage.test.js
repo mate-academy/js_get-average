@@ -4,7 +4,7 @@ const applyCalculateAverage = require('./calculateAverage');
 const users = [
   { id: 1, age: 10, likes: 200 },
   { id: 2, age: 20, likes: 100 },
-  { id: 3, age: 60, name: 'John' }
+  { id: 3, age: 60, name: 'John' },
 ];
 
 applyCalculateAverage();
@@ -72,7 +72,7 @@ test('with passed options: options as empty object', () => {
 test('average callback result', () => {
   expect(
     users.calculateAverage({
-      accumulator: (user, index) => user.id + index * 100
+      accumulator: (user, index) => user.id + index * 100,
     }))
     .toBe(102);
 });
@@ -84,7 +84,7 @@ test('average callback result, check array to be equal with source', () => {
         if (array === users) {
           return user.id + (index * 100);
         }
-      }
+      },
     }))
     .toBe(102);
 });
@@ -100,6 +100,6 @@ test('original array is not changed', () => {
     .toEqual([
       { id: 1, age: 10, likes: 200 },
       { id: 2, age: 20, likes: 100 },
-      { id: 3, age: 60, name: 'John' }
+      { id: 3, age: 60, name: 'John' },
     ]);
 });
