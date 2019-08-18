@@ -37,7 +37,71 @@ function applyCalculateAverage() {
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    // write code here
+    let sumOfValues = 0;
+    let countNotExistValues = 0;
+    let isAtLeastOneProp = false;
+    const processingAccumulator = (callback) => {
+      sumOfValues = this.reduce(
+        (sum, user, index, array) => {
+          return sum + callback(user, index, array);
+        }
+        , 0);
+
+      return sumOfValues / this.length;
+    };
+
+    if (typeof options === 'string'
+        || options === null
+        || Array.isArray(options)) {
+      return;
+    }
+
+    if (options === undefined || options.length === 0) {
+      sumOfValues = this.reduce(
+        (sum, item) => sum + item, 0
+      );
+
+      return sumOfValues / this.length;
+    }
+
+    if (typeof options === 'object') {
+      if (Object.keys(options) === 0) {
+        return;
+      }
+      if (options.hasOwnProperty('propertyName')) {
+        this.forEach(
+          (item) => {
+            if (item.hasOwnProperty(options['propertyName'])
+                && typeof item[options['propertyName']] === 'number') {
+              isAtLeastOneProp = true;
+            }
+          }
+        );
+        if (!isAtLeastOneProp) {
+          return;
+        }
+        sumOfValues = this.reduce(
+          (sum, item) => {
+            if (item.hasOwnProperty(options['propertyName'])) {
+              return sum + item[options['propertyName']];
+            } else {
+              countNotExistValues++;
+
+              return sum;
+            }
+          }
+          , 0);
+
+        return sumOfValues / (this.length - countNotExistValues);
+      }
+      if (options.hasOwnProperty('accumulator')) {
+        if (typeof options['accumulator'] !== 'function') {
+          return;
+        }
+
+        return processingAccumulator(options['accumulator']);
+      }
+    }
   };
 }
 
