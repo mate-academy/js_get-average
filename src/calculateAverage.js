@@ -46,9 +46,10 @@ function applyCalculateAverage() {
       let sumOfProperty = 0;
 
       for (const item of this) {
+        const itemPropertyName = item[options.propertyName];
         if (item.hasOwnProperty(options.propertyName)
-          && typeof item[options.propertyName] === 'number') {
-          sumOfProperty += item[options.propertyName];
+          && typeof itemPropertyName === 'number') {
+          sumOfProperty += itemPropertyName;
           counter++;
         }
       }
