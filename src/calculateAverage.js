@@ -49,17 +49,17 @@ function applyCalculateAverage() {
         }).calculateAverage();
       }
 
-      const filteredObjects = this.filter((obj) => {
-        return typeof obj[options['propertyName']] === 'number';
-      });
+      const filteredObjects = [];
+      this.reduce(function(prev, current) {
+        if (typeof current[options['propertyName']] !== 'undefined'
+            && typeof current[options['propertyName']] === 'number') {
+          filteredObjects.push(current[options['propertyName']]);
+        }
+      }, 0);
 
       if (filteredObjects.length !== 0) {
-        return filteredObjects.map((obj) => {
-          return obj[options['propertyName']];
-        }).calculateAverage();
+        return filteredObjects.calculateAverage();
       }
-
-      return undefined;
     }
 
     return undefined;
