@@ -49,16 +49,18 @@ function applyCalculateAverage() {
         }).calculateAverage();
       }
 
-      const filteredObjects = [];
-      this.reduce(function(prev, current) {
-        if (typeof current[options['propertyName']] !== 'undefined'
-            && typeof current[options['propertyName']] === 'number') {
-          filteredObjects.push(current[options['propertyName']]);
+      let count = 0;
+      const result = this.reduce((acc, current) => {
+        if (typeof current[options['propertyName']] === 'number') {
+          count++;
+          return acc + current[options['propertyName']];
+        } else {
+          return acc;
         }
       }, 0);
 
-      if (filteredObjects.length !== 0) {
-        return filteredObjects.calculateAverage();
+      if (result) {
+        return result / count;
       }
     }
 
