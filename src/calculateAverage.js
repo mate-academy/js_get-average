@@ -44,12 +44,9 @@ function applyCalculateAverage() {
     if (options instanceof Object) {
       if (options.hasOwnProperty('accumulator')
           && typeof options['accumulator'] === 'function') {
-        let accumulatorValue = 0;
-        this.forEach((user, index, array) => {
-          accumulatorValue += options.accumulator(user, index, array);
-        });
-
-        return accumulatorValue / this.length;
+        return this.map((user, index, array) => {
+          return options.accumulator(user, index, array);
+        }).calculateAverage();
       }
 
       const filteredObjects = this.filter((obj) => {
