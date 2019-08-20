@@ -37,33 +37,33 @@ function applyCalculateAverage() {
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    if (options === undefined) {
-      return this.reduce((sum, item) => sum + item, 0) / this.length;
-    } else if (typeof options !== 'object' || options === null) {
-      return undefined;
-    } else if (options.hasOwnProperty('propertyName')) {
-      let counter = 0;
-      let sumOfProperty = 0;
+    if (options !== null) {
+      if (options === undefined) {
+        return this.reduce((sum, item) => sum + item, 0) / this.length;
+      } else if (options.hasOwnProperty('propertyName')) {
+        let counter = 0;
+        let sumOfProperty = 0;
 
-      for (const item of this) {
-        const itemPropertyName = item[options.propertyName];
-        if (item.hasOwnProperty(options.propertyName)
-          && typeof itemPropertyName === 'number') {
-          sumOfProperty += itemPropertyName;
-          counter++;
+        for (const item of this) {
+          const itemPropertyValue = item[options.propertyName];
+          if (item.hasOwnProperty(options.propertyName)
+            && typeof itemPropertyValue === 'number') {
+            sumOfProperty += itemPropertyValue;
+            counter++;
+          }
         }
+
+        return counter === 0 ? undefined : sumOfProperty / counter;
+      } else if (options.hasOwnProperty('accumulator')
+        && typeof options.accumulator === 'function') {
+        let sumOfProperty = 0;
+
+        for (let i = 0; i < this.length; i++) {
+          sumOfProperty += options.accumulator(this[i], i, this);
+        }
+
+        return sumOfProperty / this.length;
       }
-
-      return counter === 0 ? undefined : sumOfProperty / counter;
-    } else if (options.hasOwnProperty('accumulator')
-      && typeof options.accumulator === 'function') {
-      let sumOfProperty = 0;
-
-      for (let i = 0; i < this.length; i++) {
-        sumOfProperty += options.accumulator(this[i], i, this);
-      }
-
-      return sumOfProperty / this.length;
     }
 
     return undefined;
