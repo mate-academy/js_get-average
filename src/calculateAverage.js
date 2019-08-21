@@ -37,33 +37,39 @@ function applyCalculateAverage() {
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    if (options !== null) {
-      if (options === undefined) {
-        return this.reduce((sum, item) => sum + item, 0) / this.length;
-      } else if (options.hasOwnProperty('propertyName')) {
-        let counter = 0;
-        let sumOfProperty = 0;
+    if (options === null) {
+      return undefined;
+    }
 
-        for (const item of this) {
-          const itemPropertyValue = item[options.propertyName];
-          if (item.hasOwnProperty(options.propertyName)
-            && typeof itemPropertyValue === 'number') {
-            sumOfProperty += itemPropertyValue;
-            counter++;
-          }
+    if (options === undefined) {
+      return this.reduce((sum, item) => sum + item, 0) / this.length;
+    }
+
+    if (options.hasOwnProperty('propertyName')) {
+      let counter = 0;
+      let sumOfProperty = 0;
+
+      for (const item of this) {
+        const itemPropertyValue = item[options.propertyName];
+        if (item.hasOwnProperty(options.propertyName)
+          && typeof itemPropertyValue === 'number') {
+          sumOfProperty += itemPropertyValue;
+          counter++;
         }
-
-        return counter === 0 ? undefined : sumOfProperty / counter;
-      } else if (options.hasOwnProperty('accumulator')
-        && typeof options.accumulator === 'function') {
-        let sumOfProperty = 0;
-
-        for (let i = 0; i < this.length; i++) {
-          sumOfProperty += options.accumulator(this[i], i, this);
-        }
-
-        return sumOfProperty / this.length;
       }
+
+      return counter === 0 ? undefined : sumOfProperty / counter;
+    }
+
+    if (options.hasOwnProperty('accumulator')
+      && typeof options.accumulator === 'function') {
+      let sumOfProperty = 0;
+
+      for (let i = 0; i < this.length; i++) {
+        sumOfProperty += options.accumulator(this[i], i, this);
+      }
+
+      return sumOfProperty / this.length;
     }
 
     return undefined;
