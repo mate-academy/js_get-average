@@ -42,33 +42,33 @@ function applyCalculateAverage() {
     }
 
     if (typeof options === 'undefined') {
-      const summElements = this.reduce((summ, element) => summ + element, 0);
+      const summCalculate = this.reduce((summ, element) => summ + element, 0);
 
-      return summElements / this.length;
-    } else if (typeof options === 'object'
+      return summCalculate / this.length;
+    }
+
+    if (typeof options === 'object'
       && options.hasOwnProperty('propertyName')) {
-      const optionsPropertyName = options['propertyName'];
-      let summ = 0;
-      let count = 0;
+      const optionsPropertyName = options.propertyName;
 
-      for (const element of this) {
+      const dataForAverage = this.reduce(([summ, count], element) => {
         if (element.hasOwnProperty(optionsPropertyName)
-          && typeof element[optionsPropertyName] === 'number') {
+        && typeof element[optionsPropertyName] === 'number') {
           summ = summ + element[optionsPropertyName];
           count = count + 1;
         }
-      }
+        return [summ, count];
+      }, [0, 0]);
 
-      if (summ) {
-        return summ / count;
-      }
-
-      return undefined;
+      return (dataForAverage[0]) ? dataForAverage[0] / dataForAverage[1]
+        : undefined;
     } else if (options.hasOwnProperty('accumulator')
-      && typeof options['accumulator'] === 'function') {
-      return (this.map((user, index, array) =>
-        options.accumulator(user, index, array))
-        .reduce((summ, element) => summ + element, 0))
+      && typeof options.accumulator === 'function') {
+      const summCalculate = this.map((user, index, array) => {
+        return options.accumulator(user, index, array);
+      });
+
+      return summCalculate.reduce((summ, element) => summ + element, 0)
         / this.length;
     }
   };
