@@ -39,29 +39,27 @@ function applyCalculateAverage() {
   [].__proto__.calculateAverage = function(options) {
     if (options === undefined) {
       return this.reduce((acum, num) => acum + num, 0) / this.length;
-    } else {
-      for (const key in options) {
-        if (key === 'propertyName') {
-          let counter = 0;
-          const sumOptions = options[key] === undefined
-            ? undefined
-            : this.reduce((acum, num) => {
-              typeof num[options[key]] === 'number' && counter++;
-              return typeof num[options[key]] === 'number'
-                ? acum + num[options[key]]
-                : acum;
-            }, 0);
+    }
 
-          return sumOptions === 0 || sumOptions === undefined
-            ? undefined
-            : sumOptions / counter;
-        } else if (key === 'accumulator'
-        && typeof options[key] === 'function') {
-          return this.reduce((acum, num, index) => {
-            return acum + options[key](num, index, this);
-          }, 0) / this.length;
-        }
-      }
+    if (options === null) {
+      return undefined;
+    }
+
+    if (options.propertyName) {
+      const filteredWithNumbers = this
+        .filter(num => typeof num[options.propertyName] === 'number');
+      const sumOptions = filteredWithNumbers
+        .reduce((acum, num) => {
+          return acum + num[options.propertyName];
+        }, 0);
+
+      return sumOptions === 0
+        ? undefined
+        : sumOptions / filteredWithNumbers.length;
+    } else if (typeof options.accumulator === 'function') {
+      return this.reduce((acum, num, index) => {
+        return acum + options.accumulator(num, index, this);
+      }, 0) / this.length;
     }
   };
 }
