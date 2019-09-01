@@ -44,12 +44,12 @@ function applyCalculateAverage() {
     }
 
     if (options.hasOwnProperty('propertyName')
-    && this.some(elem => !!elem[options.propertyName]
-    && typeof elem[options.propertyName] === 'number')) {
+      && this.some(elem => !!elem[options.propertyName]
+        && typeof elem[options.propertyName] === 'number')) {
       let counter = 0;
       return this.reduce((acc, elem) => {
         if (elem.hasOwnProperty(options.propertyName)
-        && typeof elem[options.propertyName] === 'number') {
+          && typeof elem[options.propertyName] === 'number') {
           counter++;
           return acc + elem[options.propertyName];
         }
