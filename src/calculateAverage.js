@@ -46,15 +46,17 @@ function applyCalculateAverage() {
     }
 
     if (options.propertyName) {
-      const value = options.propertyName;
-      const listOfOptions = this.filter(item => item[value]
-        && !isNaN(item[value]));
+      const key = options.propertyName;
+      const listOfOptions = this.filter(item => item[key]
+        && !isNaN(item[key]));
 
       return listOfOptions.length === 0
         ? undefined
-        : listOfOptions.reduce((sum, item) => sum + item[value], 0)
+        : listOfOptions.reduce((sum, item) => sum + item[key], 0)
           / listOfOptions.length;
-    } else if (typeof options.accumulator === 'function') {
+    }
+
+    if (typeof options.accumulator === 'function') {
       return this.reduce((acc, item, index) => {
         return acc + options.accumulator(item, index, this);
       }, 0) / this.length;
