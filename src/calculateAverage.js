@@ -56,7 +56,9 @@ function applyCalculateAverage() {
       return sumOptions === 0
         ? undefined
         : sumOptions / filteredWithNumbers.length;
-    } else if (typeof options.accumulator === 'function') {
+    }
+
+    if (typeof options.accumulator === 'function') {
       return this.reduce((acum, num, index) => {
         return acum + options.accumulator(num, index, this);
       }, 0) / this.length;
