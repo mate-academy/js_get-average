@@ -39,13 +39,15 @@ function applyCalculateAverage() {
   [].__proto__.calculateAverage = function(options) {
     if (options === null) {
       return undefined;
-    } else if (options === undefined) {
+    }
+
+    if (options === undefined) {
       return this.reduce((acc, elem) => acc + elem, 0) / this.length;
     }
 
     if (options.hasOwnProperty('propertyName')
       && this.some(elem => !!elem[options.propertyName]
-        && typeof elem[options.propertyName] === 'number')) {
+      && typeof elem[options.propertyName] === 'number')) {
       let counter = 0;
       return this.reduce((acc, elem) => {
         if (elem.hasOwnProperty(options.propertyName)
@@ -58,7 +60,7 @@ function applyCalculateAverage() {
       }, 0) / counter;
     }
 
-    if (options.hasOwnProperty('accumulator')
+    if (!!options.accumulator
       && typeof options.accumulator === 'function') {
       return this
         .reduce((acc, elem, i, arr) => acc + options
