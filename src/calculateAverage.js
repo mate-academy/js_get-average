@@ -54,9 +54,7 @@ function applyCalculateAverage() {
             notNumbers++;
           }
         }
-        return Number.isNaN(average) ? undefined : Number
-          .isNaN(average / (this.length - notNumbers))
-          ? undefined : average / (this.length - notNumbers);
+        return Number.isNaN(average) ? undefined : Number.isNaN(average / (this.length - notNumbers)) ? undefined : average / (this.length - notNumbers);
       }
     }
     if (typeof options.accumulator === 'function') {
