@@ -38,6 +38,43 @@ function applyCalculateAverage() {
    */
   [].__proto__.calculateAverage = function(options) {
     // write code here
+    if (!isNaN(this[0])) {
+      if (options === undefined) {
+        return this.reduce((sum, item) => sum + item, 0) / this.length;
+      }
+    } else {
+      if (!options) {
+        return undefined;
+      }
+
+      let property;
+      let counterOfNaN = 0;
+
+      if (options['propertyName'] in this[0]) {
+        property = options['propertyName'];
+
+        return this.reduce((sum, item) => {
+          if (!isNaN(item[property])) {
+            return item[property] + sum;
+          } else {
+            counterOfNaN++;
+            return sum;
+          }
+        }, 0) / (this.length - counterOfNaN);
+      } else if (options['accumulator']) {
+        property = options['accumulator'];
+        let sum = 0;
+
+        if (typeof property !== 'function') {
+          return undefined;
+        }
+        for (let i = 0; i < this.length; i++) {
+          sum += options['accumulator'](this[i], i, this);
+        }
+
+        return sum / this.length;
+      }
+    }
   };
 }
 
