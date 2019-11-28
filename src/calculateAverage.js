@@ -36,8 +36,37 @@ function applyCalculateAverage() {
    *
    * @param {Object} options - optional
    */
-  [].__proto__.calculateAverage = function(options) {
-    // write code here
+  [].__proto__.calculateAverage = function(propertyName = 0) {
+    if (propertyName === null || Object.values(propertyName)[0] === 'name') {
+      return undefined;
+    }
+
+    if (typeof Object.values(propertyName)[0] === 'function') {
+      const callback = Object.values(propertyName)[0];
+
+      return this.map(callback).reduce((sum, b) => sum + b) / this.length;
+    }
+
+    if (typeof this[0] === 'number') {
+      return this.reduce((sum, a) => sum + a) / this.length;
+    }
+
+    const key = Object.values(propertyName);
+    let counter = 0;
+    let average = 0;
+
+    for (const i of this) {
+      if (typeof i[key] === 'number') {
+        average += i[key];
+        counter++;
+      }
+    }
+
+    if (average === 0) {
+      return undefined;
+    }
+
+    return average / counter;
   };
 }
 

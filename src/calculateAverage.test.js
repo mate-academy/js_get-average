@@ -71,8 +71,7 @@ test('with passed options: options as empty object', () => {
 
 test('average callback result', () => {
   expect(
-    users.calculateAverage({
-      accumulator: (user, index) => user.id + index * 100,
+    users.calculateAverage({ accumulator: (user, index) => user.id + index * 100,
     }))
     .toBe(102);
 });
