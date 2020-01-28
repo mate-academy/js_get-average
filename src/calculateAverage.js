@@ -44,8 +44,6 @@ function applyCalculateAverage() {
     }
 
     if (options === null
-    || Array.isArray(options)
-    || typeof options !== 'object'
     || (!options.hasOwnProperty('propertyName')
     && !options.hasOwnProperty('accumulator'))) {
       return undefined;
