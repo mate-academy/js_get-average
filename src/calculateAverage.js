@@ -55,7 +55,7 @@ function applyCalculateAverage() {
     const { propertyName = '', accumulator = '' } = options;
 
     if (propertyName) {
-      for (let i = 0; i < this.length; ++i) {
+      for (let i = 0; i < this.length; i += 1) {
         if (!this[i].hasOwnProperty(propertyName)) {
           continue;
         }
@@ -79,8 +79,9 @@ function applyCalculateAverage() {
         return;
       }
 
-      for (; count < this.length; ++count) {
+      while (count < this.length) {
         sum += accumulator(this[count], count, this);
+        count += 1;
       }
 
       return sum / count;
