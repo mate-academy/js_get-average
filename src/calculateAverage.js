@@ -38,47 +38,49 @@ function applyCalculateAverage() {
    */
   [].__proto__.calculateAverage = function(options) {
     if (options === null) {
-      return undefined;
+      return;
     }
 
     let sum = 0;
     let count = 0;
 
     if (!arguments.length || arguments[0] === undefined) {
-      for (; count < this.length; ++count) {
-        sum += +this[count];
+      while (count < this.length) {
+        sum += +this[count++];
       }
 
       return sum / count;
     }
 
-    if (options.propertyName) {
+    const { propertyName = '', accumulator = '' } = options;
+
+    if (propertyName) {
       for (let i = 0; i < this.length; ++i) {
-        if (!this[i].hasOwnProperty(options.propertyName)) {
+        if (!this[i].hasOwnProperty(propertyName)) {
           continue;
         }
 
-        if (isNaN(this[i][options.propertyName])) {
-          return undefined;
+        if (isNaN(this[i][propertyName])) {
+          return;
         }
         ++count;
-        sum += this[i][options.propertyName];
+        sum += this[i][propertyName];
       }
 
-      if (count === 0) {
-        return undefined;
+      if (!count) {
+        return;
       }
 
       return sum / count;
     }
 
-    if (options.accumulator) {
-      if ((typeof options.accumulator) !== 'function') {
-        return undefined;
+    if (accumulator) {
+      if ((typeof accumulator) !== 'function') {
+        return;
       }
 
       for (; count < this.length; ++count) {
-        sum += options.accumulator(this[count], count, this);
+        sum += accumulator(this[count], count, this);
       }
 
       return sum / count;
