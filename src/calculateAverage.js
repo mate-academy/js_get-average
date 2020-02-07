@@ -32,12 +32,40 @@
  *
  */
 function applyCalculateAverage() {
-  /**
-   *
-   * @param {Object} options - optional
-   */
   [].__proto__.calculateAverage = function(options) {
-    // write code here
+    switch (typeof options) {
+      case 'string':
+        return undefined;
+      case 'object':
+        return Obj.call(this);
+      default:
+        return this.reduce((a, b) => a + b) / this.length;
+    }
+
+    function Obj() {
+      if (options === null || (isNaN(options) && typeof options !== 'object')) {
+        return undefined;
+      }
+
+      const key = Object.values(options)[0];
+      let iteribleValues = null;
+
+      if (typeof key === 'function') {
+        iteribleValues = this.map(key);
+      } else {
+        iteribleValues = this
+          .map(obj => {
+            return obj[key];
+          })
+          .filter(num => Number(num));
+      }
+
+      if (!iteribleValues.length) {
+        return undefined;
+      }
+
+      return iteribleValues.reduce((a, b) => a + b) / iteribleValues.length;
+    }
   };
 }
 
