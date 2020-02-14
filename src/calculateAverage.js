@@ -37,32 +37,32 @@ function applyCalculateAverage() {
       case 'string':
         return undefined;
       case 'object':
-        return objCase.call(this);
+        return AverageIntoObj.call(this);
       default:
         return this.reduce((a, b) => a + b) / this.length;
     }
 
-    function objCase() {
+    function AverageIntoObj() {
       if (options === null || (isNaN(options) && typeof options !== 'object')) {
         return undefined;
       }
 
       const key = Object.values(options)[0];
-      let values = null;
+      let ageList = null;
 
       if (typeof key === 'function') {
-        values = this.map(key);
+        ageList = this.map(key);
       } else {
-        values = this
+        ageList = this
           .map(obj => obj[key])
           .filter(num => Number(num));
       }
 
-      if (!values.length) {
+      if (!ageList.length) {
         return undefined;
       }
 
-      return values.reduce((a, b) => a + b) / values.length;
+      return ageList.reduce((a, b) => a + b) / ageList.length;
     }
   };
 }
