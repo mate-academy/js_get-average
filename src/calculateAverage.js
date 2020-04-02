@@ -38,6 +38,46 @@ function applyCalculateAverage() {
    */
   [].__proto__.calculateAverage = function(options) {
     // write code here
+    let result = 0;
+    let count = 0;
+
+    if (options === undefined) {
+      for (let i = 0; i < this.length; i++) {
+        result += this[i];
+        count++;
+      }
+
+      return isNaN(result / count) ? undefined : result / count;
+    }
+
+    if (options === null
+      || options.length === 0
+      || Object.keys(options).length === 0) {
+      return undefined;
+    }
+
+    if (options.hasOwnProperty('propertyName')) {
+      result = 0;
+      count = 0;
+
+      for (let i = 0; i < this.length; i++) {
+        if (this[i].hasOwnProperty(options.propertyName)){
+          count++;
+          result += this[i][options.propertyName];
+        }
+      }
+
+      return isNaN(result / count) ? undefined : result / count;
+    }
+
+    if (typeof options.accumulator === 'function') {
+      for (let i = 0; i < this.length; i++) {
+        result += options.accumulator(this[i], i, this);
+        count++;
+      }
+
+      return isNaN(result / count) ? undefined : result / count;
+    }
   };
 }
 
