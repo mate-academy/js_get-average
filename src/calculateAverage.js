@@ -41,36 +41,36 @@ function applyCalculateAverage() {
     let counter = 0;
 
     if ((options === null)
-    || (typeof options === 'object' && typeof this[0] !== 'object')
-    || (typeof options === 'object' && Object.keys(options).length === 0)) {
+      || (typeof options === 'object' && typeof this[0] !== 'object')
+      || (typeof options === 'object' && Object.keys(options).length === 0)) {
       return;
     }
 
-    if (options === undefined) {
-      for (let i = 0; i < this.length; i++) {
-        result += this[i];
+    if (!options) {
+      this.forEach(val => {
+        result += val;
         counter++;
-      }
+      });
 
       return result / counter;
     }
 
     if (options.hasOwnProperty('propertyName')) {
-      for (let i = 0; i < this.length; i++) {
-        if (this[i].hasOwnProperty(options.propertyName)) {
-          result += this[i][options.propertyName];
+      this.forEach(val => {
+        if (val.hasOwnProperty(options.propertyName)) {
+          result += val[options.propertyName];
           counter++;
         }
-      }
+      });
 
       return isNaN(result / counter) ? undefined : result / counter;
     }
 
     if (typeof options.accumulator === 'function') {
-      for (let i = 0; i < this.length; i++) {
-        result += options.accumulator(this[i], i, this);
+      this.forEach((val, index) => {
+        result += options.accumulator(val, index, this);
         counter++;
-      }
+      });
 
       return result / counter;
     }
