@@ -56,17 +56,14 @@ function applyCalculateAverage() {
     }
 
     if (options.hasOwnProperty('propertyName')) {
-      let resultObj = 0;
-      let counterObj = 0;
-
       for (let i = 0; i < this.length; i++) {
         if (this[i].hasOwnProperty(options.propertyName)) {
-          resultObj += this[i][options.propertyName];
-          counterObj++;
+          result += this[i][options.propertyName];
+          counter++;
         }
       }
 
-      return isNaN(resultObj / counterObj) ? undefined : resultObj / counterObj;
+      return isNaN(result / counter) ? undefined : result / counter;
     }
 
     if (typeof options.accumulator === 'function') {
