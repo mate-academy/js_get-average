@@ -1,11 +1,16 @@
 'use strict';
-/* eslint-disable */
 
 const applyCalculateAverage = require('./calculateAverage');
 const users = [
-  { id: 1, age: 10, likes: 200 },
-  { id: 2, age: 20, likes: 100 },
-  { id: 3, age: 60, name: 'John' },
+  {
+    id: 1, age: 10, likes: 200,
+  },
+  {
+    id: 2, age: 20, likes: 100,
+  },
+  {
+    id: 3, age: 60, name: 'John',
+  },
 ];
 
 applyCalculateAverage();
@@ -99,8 +104,14 @@ test('average callback result, wrong callback', () => {
 test('original array is not changed', () => {
   expect(users)
     .toEqual([
-      { id: 1, age: 10, likes: 200 },
-      { id: 2, age: 20, likes: 100 },
-      { id: 3, age: 60, name: 'John' },
+      {
+        id: 1, age: 10, likes: 200,
+      },
+      {
+        id: 2, age: 20, likes: 100,
+      },
+      {
+        id: 3, age: 60, name: 'John',
+      },
     ]);
 });
