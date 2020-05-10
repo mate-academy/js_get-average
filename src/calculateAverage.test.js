@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable */
 
 const applyCalculateAverage = require('./calculateAverage');
 const users = [
