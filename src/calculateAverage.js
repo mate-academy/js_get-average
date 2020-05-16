@@ -8,7 +8,7 @@
  * - If options.propertyName is passed, returns average value of propertyName
  * property of all items in the array.
  * - If options.accumulator = function(item, index, array) is passed,
- * returns average value of accumulator res applied to all items in the array
+ * returns average value of accumulator result applied to all items in the array
  *
  * [1, 2, 6].calculateAverage() === 3
  * [1, 2, 6].calculateAverage({propertyName: 'name'}) === undefined
