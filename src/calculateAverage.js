@@ -8,7 +8,7 @@
  * - If options.propertyName is passed, returns average value of propertyName
  * property of all items in the array.
  * - If options.accumulator = function(item, index, array) is passed,
- * returns average value of accumulator result applied to all items in the array
+ * returns average value of accumulator res applied to all items in the array
  *
  * [1, 2, 6].calculateAverage() === 3
  * [1, 2, 6].calculateAverage({propertyName: 'name'}) === undefined
@@ -37,7 +37,43 @@ function applyCalculateAverage() {
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    // write code here
+    let res = 0;
+    let count = 0;
+
+    if ((options === null)
+      || (typeof options === 'object' && typeof this[0] !== 'object')
+      || (typeof options === 'object' && Object.keys(options).length === 0)) {
+      return;
+    }
+
+    if (!options) {
+      this.forEach(val => {
+        res += val;
+        count++;
+      });
+
+      return res / count;
+    }
+
+    if (options.hasOwnProperty('propertyName')) {
+      this.forEach(val => {
+        if (val.hasOwnProperty(options.propertyName)) {
+          res += val[options.propertyName];
+          count++;
+        }
+      });
+
+      return isNaN(res / count) ? undefined : res / count;
+    }
+
+    if (typeof options.accumulator === 'function') {
+      this.forEach((val, index) => {
+        res += options.accumulator(val, index, this);
+        count++;
+      });
+
+      return res / count;
+    }
   };
 }
 
