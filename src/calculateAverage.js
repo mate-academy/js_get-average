@@ -38,6 +38,78 @@ function applyCalculateAverage() {
    */
   [].__proto__.calculateAverage = function(options) {
     // write code here
+    let optionsKey;
+    let optionsValue;
+
+    if (options === undefined) {
+      return avg(this);
+    } else if (options === null) {
+      return undefined;
+    } else if (Array.isArray(options)) {
+      return undefined;
+    } else if (typeof options === 'object') {
+      optionsKey = Object.keys(options)[0];
+      optionsValue = options[optionsKey];
+    } else {
+      return undefined;
+    }
+
+    switch (optionsKey) {
+      case undefined:
+        return undefined;
+      case 'propertyName':
+        return avgObjProperty(optionsValue, this);
+      case 'accumulator':
+        return avgCallback(optionsValue, this);
+    }
+
+    function avg(arr) {
+      let sum = 0;
+
+      for (const el of arr) {
+        sum += el;
+      }
+
+      return sum / arr.length;
+    }
+
+    function avgObjProperty(keyProperty, arrWithObj) {
+      let sum = 0;
+      let count = 0;
+
+      for (const obj of arrWithObj) {
+        if (typeof obj !== 'object') {
+          return undefined;
+        } else if (obj[keyProperty] === undefined) {
+          continue;
+        } else if (typeof obj[keyProperty] !== 'number') {
+          return undefined;
+        } else {
+          sum += obj[keyProperty];
+          count += 1;
+        }
+      }
+
+      if (count === 0) {
+        return undefined;
+      }
+
+      return sum / count;
+    }
+
+    function avgCallback(callBack, arrWithObj) {
+      if (({}).toString.call(callBack) !== '[object Function]') {
+        return undefined;
+      }
+
+      let sum = 0;
+
+      for (let i = 0; i < arrWithObj.length; i++) {
+        sum += callBack(arrWithObj[i], i, arrWithObj);
+      }
+
+      return sum / arrWithObj.length;
+    }
   };
 }
 
