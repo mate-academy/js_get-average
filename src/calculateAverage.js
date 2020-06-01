@@ -52,11 +52,9 @@ function applyCalculateAverage() {
       && Object.keys(options).length !== 0
     ) {
       for (const item of this) {
-        for (const val in item) {
-          if (val === options.propertyName) {
-            sum += item[val];
-            count++;
-          }
+        if (item[options.propertyName]) {
+          sum += item[options.propertyName];
+          count++;
         }
       }
     } else if (
