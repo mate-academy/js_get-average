@@ -37,49 +37,35 @@ function applyCalculateAverage() {
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    if (options === null
-      || (typeof options !== 'object' && options !== undefined)) {
-      return;
-    }
-
-    const [type, key] = (options === undefined || !Object.keys(options).length)
+    const [type, key] = (!options || !Object.keys(options).length)
       ? [null, null] : Object.entries(options)[0];
 
     let sum = 0;
-    let amount = this.length;
+    let quantity = this.length;
 
-    switch (type) {
-      case 'propertyName':
-        for (const item of this) {
-          if (item.hasOwnProperty(key)) {
-            if (typeof item[key] !== 'number') {
-              return;
-            }
+    for (let i = 0; i < this.length; i++) {
+      const item = this[i];
 
-            sum += item[key];
-          } else {
-            amount--;
+      switch (type) {
+        case 'propertyName':
+          item.hasOwnProperty(key) && typeof item[key] === 'number'
+            ? sum += item[key] : quantity--;
+          break;
+
+        case 'accumulator':
+          if (typeof key !== 'function') {
+            return;
           }
-        }
-        break;
 
-      case 'accumulator':
-        if (typeof key !== 'function') {
-          return;
-        }
+          sum += key(item, i, this);
+          break;
 
-        for (let i = 0; i < this.length; i++) {
-          sum += key(this[i], i, this);
-        }
-        break;
-
-      default:
-        for (const item of this) {
+        default:
           sum += item;
-        }
+      }
     }
 
-    return sum / amount || undefined;
+    return sum / quantity || undefined;
   };
 }
 
