@@ -31,7 +31,7 @@ test('for average value', () => {
 });
 
 test('with passed options, simple array', () => {
-  expect([1, 2, 6].calculateAverage({ propertyName: 'name' }))
+  expect([1, 2, 6, 5, 1, 3].calculateAverage({ propertyName: 'name' }))
     .toBe(undefined);
 });
 
