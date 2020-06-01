@@ -39,23 +39,20 @@ function applyCalculateAverage() {
   [].__proto__.calculateAverage = function(options) {
     if (options === undefined) {
       return this.reduce((a, b) => a + b) / this.length;
-    } else if (options === null) {
-      return undefined;
-    } else if (typeof (options) === 'string') {
-      return undefined;
-    } else if (typeof (options.accumulator) === 'string') {
-      return undefined;
-    } else if (options.length > 1) {
+    } else if (options === null
+      || typeof (options) === 'string'
+      || typeof (options.accumulator) === 'string'
+      || options.length > 1) {
       return undefined;
     } else {
       let sum = 0;
-      let count = 0;
+      let counter = 0;
 
       for (let i = 0; i < this.length; i++) {
         if (options.accumulator !== undefined
           && typeof (options.accumulator) === 'function') {
           sum += options.accumulator(this[i], i, this);
-          count++;
+          counter++;
         }
 
         if (options.propertyName !== undefined
@@ -64,12 +61,12 @@ function applyCalculateAverage() {
             return undefined;
           } else {
             sum += this[i][options.propertyName];
-            count++;
+            counter++;
           }
         }
       }
 
-      return (count > 0) ? sum / count : undefined;
+      return (counter > 0) ? sum / counter : undefined;
     }
   };
 }
