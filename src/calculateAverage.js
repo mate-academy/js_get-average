@@ -40,35 +40,32 @@ function applyCalculateAverage() {
     let sum = 0;
     let count = 0;
 
-    if (typeof this[0] !== 'object') {
-      if (!options) {
-        for (const item of this) {
-          sum += item;
-          count++;
-        }
+    if (typeof this[0] !== 'object' && !options) {
+      for (const item of this) {
+        sum += item;
+        count++;
       }
-    } else {
-      if (
-        typeof options === 'object'
-        && options !== null
-        && options.accumulator === undefined
-        && Object.keys(options).length !== 0
-      ) {
-        for (const item of this) {
-          for (const val in item) {
-            if (val === options.propertyName) {
-              sum += item[val];
-              count++;
-            }
-          }
-        }
-      } else if (options !== null) {
-        if (typeof options.accumulator === 'function') {
-          for (let i = 0; i < this.length; i++) {
-            sum += options.accumulator(this[i], i, this);
+    } else if (
+      typeof options === 'object'
+      && options !== null
+      && options.accumulator === undefined
+      && Object.keys(options).length !== 0
+    ) {
+      for (const item of this) {
+        for (const val in item) {
+          if (val === options.propertyName) {
+            sum += item[val];
             count++;
           }
         }
+      }
+    } else if (
+      options !== null
+      && typeof options.accumulator === 'function'
+    ) {
+      for (let i = 0; i < this.length; i++) {
+        sum += options.accumulator(this[i], i, this);
+        count++;
       }
     }
 
