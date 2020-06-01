@@ -39,7 +39,6 @@ function applyCalculateAverage() {
   [].__proto__.calculateAverage = function(options) {
     let sum = 0;
     let count = 0;
-    let isFound = false;
 
     if (typeof this[0] !== 'object') {
       if (!options) {
@@ -47,44 +46,33 @@ function applyCalculateAverage() {
           sum += item;
           count++;
         }
-      } else {
-        return undefined;
       }
     } else {
       if (
-        !options
-        || typeof options !== 'object'
-        || options === null
-        || Object.keys(options).length === 0
+        typeof options === 'object'
+        && options !== null
+        && options.accumulator === undefined
+        && Object.keys(options).length !== 0
       ) {
-        return undefined;
-      } else if (options.accumulator === undefined) {
         for (const item of this) {
           for (const val in item) {
             if (val === options.propertyName) {
               sum += item[val];
               count++;
-              isFound = true;
             }
           }
-
-          if (!isFound) {
-            return undefined;
+        }
+      } else if (options !== null) {
+        if (typeof options.accumulator === 'function') {
+          for (let i = 0; i < this.length; i++) {
+            sum += options.accumulator(this[i], i, this);
+            count++;
           }
-        }
-      } else {
-        if (typeof options.accumulator !== 'function') {
-          return undefined;
-        }
-
-        for (let i = 0; i < this.length; i++) {
-          sum += options.accumulator(this[i], i, this);
-          count++;
         }
       }
     }
 
-    return sum / count;
+    return count > 0 && sum / count ? sum / count : undefined;
   };
 }
 
