@@ -67,7 +67,7 @@ function applyCalculateAverage() {
       }
     }
 
-    return count > 0 && sum / count ? sum / count : undefined;
+    return sum / count || undefined;
   };
 }
 
