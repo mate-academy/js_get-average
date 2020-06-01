@@ -49,7 +49,6 @@ function applyCalculateAverage() {
       typeof options === 'object'
       && options !== null
       && options.accumulator === undefined
-      && Object.keys(options).length !== 0
     ) {
       for (const item of this) {
         if (item[options.propertyName]) {
@@ -60,6 +59,7 @@ function applyCalculateAverage() {
     } else if (
       options !== null
       && typeof options.accumulator === 'function'
+      && Object.keys(options).length !== 0
     ) {
       for (let i = 0; i < this.length; i++) {
         sum += options.accumulator(this[i], i, this);
