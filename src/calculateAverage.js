@@ -37,7 +37,8 @@ function applyCalculateAverage() {
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    const [type, key] = (!options || !Object.keys(options).length)
+    const [optionsKey, optionsValue] = (!options
+      || !Object.keys(options).length)
       ? [null, null] : Object.entries(options)[0];
 
     let sum = 0;
@@ -46,18 +47,23 @@ function applyCalculateAverage() {
     for (let i = 0; i < this.length; i++) {
       const item = this[i];
 
-      switch (type) {
+      switch (optionsKey) {
         case 'propertyName':
-          item.hasOwnProperty(key) && typeof item[key] === 'number'
-            ? sum += item[key] : quantity--;
+          if (item.hasOwnProperty(optionsValue)
+            && typeof item[optionsValue] === 'number') {
+            sum += item[optionsValue];
+          } else {
+            quantity--;
+          }
+
           break;
 
         case 'accumulator':
-          if (typeof key !== 'function') {
+          if (typeof optionsValue !== 'function') {
             return;
           }
 
-          sum += key(item, i, this);
+          sum += optionsValue(item, i, this);
           break;
 
         default:
