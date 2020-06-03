@@ -44,30 +44,33 @@ function applyCalculateAverage() {
       || typeof (options.accumulator) === 'string'
       || options.length > 1) {
       return undefined;
-    } else {
-      let sum = 0;
-      let counter = 0;
+    }
 
-      for (let i = 0; i < this.length; i++) {
-        if (options.accumulator !== undefined
-          && typeof (options.accumulator) === 'function') {
-          sum += options.accumulator(this[i], i, this);
-          counter++;
-        }
+    let sum = 0;
+    let counter = 0;
 
-        if (options.propertyName !== undefined
-          && this[i][options.propertyName] !== undefined) {
-          if (typeof (this[i][options.propertyName]) !== 'number') {
-            return undefined;
-          } else {
-            sum += this[i][options.propertyName];
-            counter++;
-          }
-        }
+    for (let i = 0; i < this.length; i++) {
+      if (options.accumulator !== undefined
+        && typeof (options.accumulator) === 'function') {
+        sum += options.accumulator(this[i], i, this);
+        counter++;
+        continue;
       }
 
-      return (counter > 0) ? sum / counter : undefined;
+      if (options.propertyName === undefined
+        && this[i][options.propertyName] === undefined) {
+        continue;
+      }
+
+      if (typeof (this[i][options.propertyName]) !== 'number') {
+        continue;
+      } else {
+        sum += this[i][options.propertyName];
+        counter++;
+      }
     }
+
+    return (counter > 0) ? sum / counter : undefined;
   };
 }
 
