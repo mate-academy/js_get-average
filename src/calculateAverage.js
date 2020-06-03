@@ -38,7 +38,7 @@ function applyCalculateAverage() {
    */
   [].__proto__.calculateAverage = function(options) {
     let sum = 0;
-    let number = this.length;
+    let numberOfElements = this.length;
 
     if (options === null) {
       return undefined;
@@ -51,7 +51,7 @@ function applyCalculateAverage() {
         sum += options.accumulator(this[i], i, this);
       }
 
-      return sum / number;
+      return sum / numberOfElements;
     }
 
     if (options === undefined) {
@@ -62,11 +62,11 @@ function applyCalculateAverage() {
       for (let i = 0; i < this.length; i++) {
         (this[i].hasOwnProperty(options.propertyName))
           ? sum += this[i][options.propertyName]
-          : number--;
+          : numberOfElements--;
       }
     }
 
-    return sum / number || undefined;
+    return sum / numberOfElements || undefined;
   };
 }
 
