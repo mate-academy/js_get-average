@@ -32,12 +32,46 @@
  *
  */
 function applyCalculateAverage() {
+  function calculateAverageOfArray(array) {
+    return array.reduce((sum, currentValue) => {
+      return sum + currentValue;
+    }) / array.length;
+  }
+  function calculateAverageOfArrayOfObjects(array, propertyName) {
+    const propertyIsValid = array.some((item) => {
+      return item[propertyName] && (typeof item[propertyName] === 'number');
+    });
+
+    if (propertyIsValid) {
+      const valuesByProperty = [];
+      array.forEach((item) => {
+        if (item[propertyName]) {
+          valuesByProperty.push(item[propertyName]);
+        }
+      });
+      return calculateAverageOfArray(valuesByProperty);
+    }
+  }
   /**
    *
    * @param {Object} options - optional
    */
   [].__proto__.calculateAverage = function(options) {
-    // write code here
+    if (options === null) {
+      return;
+    }
+    if (options === undefined) {
+      return calculateAverageOfArray(this);
+    }
+    if (options.propertyName) {
+      return calculateAverageOfArrayOfObjects(this, options.propertyName);
+    }
+    if (typeof (options.accumulator) === 'function') {
+      const accumulatorResults = this.map((item, index, array) => {
+        return options.accumulator(item, index, array);
+      });
+      return calculateAverageOfArray(accumulatorResults);
+    }
   };
 }
 
